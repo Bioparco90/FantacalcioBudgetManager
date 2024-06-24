@@ -1,6 +1,4 @@
-using Logic;
 using Model;
-using System.Diagnostics;
 
 namespace TestProject1
 {
@@ -49,8 +47,7 @@ namespace TestProject1
         //        action(team);
         //    }
 
-        //    [TestMethod]
-        //    public void TestTeamCreation() => TeamCreation(Assert.IsNotNull);
+
 
         //    [TestMethod]
         //    public void CheckAddingPlayerToList()

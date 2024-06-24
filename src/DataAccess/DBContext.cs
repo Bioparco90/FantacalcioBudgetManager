@@ -1,19 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Model;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SQLite;
 
 namespace DataAccess
 {
-    public class Context : DbContext
+    public class Context
     {
+
+        public const string DatabaseFilename = "TodoSQLite.db3";
+
+        public const SQLite.SQLiteOpenFlags Flags =
+            // open the database in read/write mode
+            SQLite.SQLiteOpenFlags.ReadWrite |
+            // create the database if it doesn't exist
+            SQLite.SQLiteOpenFlags.Create |
+            // enable multi-threaded database access
+            SQLite.SQLiteOpenFlags.SharedCache;
+
+        public static string DatabasePath =>
+            Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
+
         private readonly string? _connectionString;
 
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<Goalkeeper> Goalkeepers { get; set; }
-        public DbSet<Defender> Defenders { get; set; }
-        public DbSet<Midfielder> Midfielders { get; set; }
-        public DbSet<Forward> Forwards { get; set; }
+        //public DbSet<Team> Teams { get; set; }
+        //public DbSet<Goalkeeper> Goalkeepers { get; set; }
+        //public DbSet<Defender> Defenders { get; set; }
+        //public DbSet<Midfielder> Midfielders { get; set; }
+        //public DbSet<Forward> Forwards { get; set; }
 
         public Context()
         {

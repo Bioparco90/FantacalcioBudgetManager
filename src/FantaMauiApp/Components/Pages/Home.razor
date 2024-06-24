@@ -1,0 +1,49 @@
+﻿@page "/"
+@using FantaMauiApp.Data
+@using Model
+
+<button @onclick="AddTeam">Add Team</button>
+<button @onclick="GetTeam">Get Team</button>
+<button @onclick="AddGk">Add Player</button>
+
+@foreach (var team in teams)
+{
+    <br />
+    <label>@team.Name</label>
+}
+
+@code {
+    private Team? Team { get; set; }
+    private List<Team> teams = [];
+
+    private async Task AddTeam()
+    {
+        Team team = new() { Name = "Test" };
+        Context dbContext = new();
+        _ = await dbContext.InsertTeam();
+    }
+
+    private async Task AddGk()
+    {
+        Goalkeeper gk = new() { Name = "Test" };
+        Context dbContext = new();
+        _ = await dbContext.InsertPlayer<Goalkeeper>(gk.Name);
+    }
+
+    private async Task GetTeam()
+    {
+        Context dbContext = new();
+        Team = await dbContext.GetTeam();
+    }
+
+    private async Task GetTeams()
+    {
+        Context dbContext = new();
+        teams = await dbContext.GetTeams();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetTeams();
+    }
+}
