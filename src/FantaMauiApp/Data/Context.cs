@@ -3,7 +3,7 @@ using SQLite;
 
 namespace FantaMauiApp.Data
 {
-    public class Context : SQLiteAsyncConnection
+    internal class Context
     {
         private SQLiteAsyncConnection? Database;
         public const string DatabaseFilename = "FantaBudget.db3";
@@ -18,48 +18,19 @@ namespace FantaMauiApp.Data
         public static string DbPath =>
             Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename);
 
-        public Context()
-            : base(DbPath, Flags)
-        {
-        }
-
-        private async Task Init()
+        public async Task Init()
         {
             if (Database is not null)
                 return;
 
-            Database = new SQLiteAsyncConnection(DatabasePath, Flags);
-            await CreateTableAsync<Team>();
-            await CreateTableAsync<Goalkeeper>();
-            await CreateTableAsync<Defender>();
-            await CreateTableAsync<Midfielder>();
-            await CreateTableAsync<Forward>();
+            Database = new SQLiteAsyncConnection(DbPath, Flags);
+            await Database.CreateTableAsync<Team>();
+            await Database.CreateTableAsync<Goalkeeper>();
+            await Database.CreateTableAsync<Defender>();
+            await Database.CreateTableAsync<Midfielder>();
+            await Database.CreateTableAsync<Forward>();
         }
 
-        public async Task<int> InsertTeam()
-        {
-            await Init();
-            return await InsertAsync(new Team() { Name = "Bioparco" });
-        }
-
-        public async Task<int> InsertPlayer<T>(string name) where T : Player, new()
-        {
-            await Init();
-            return await InsertAsync(new T() { Name = name });
-        }
-
-        public async Task<Team> GetTeam()
-        {
-            await Init();
-            return await Table<Team>().FirstOrDefaultAsync();
-        }
-
-        public async Task<List<Team>> GetTeams()
-        {
-            await Init();
-            return await Table<Team>().ToListAsync();
-        }
-
-
+        public SQLiteAsyncConnection? GetDatabase() => Database;
     }
 }

@@ -3,8 +3,6 @@
 @using Model
 
 <button @onclick="AddTeam">Add Team</button>
-<button @onclick="GetTeam">Get Team</button>
-<button @onclick="AddGk">Add Player</button>
 
 @foreach (var team in teams)
 {
@@ -19,27 +17,15 @@
     private async Task AddTeam()
     {
         Team team = new() { Name = "Test" };
-        Context dbContext = new();
-        _ = await dbContext.InsertTeam();
-    }
-
-    private async Task AddGk()
-    {
-        Goalkeeper gk = new() { Name = "Test" };
-        Context dbContext = new();
-        _ = await dbContext.InsertPlayer<Goalkeeper>(gk.Name);
-    }
-
-    private async Task GetTeam()
-    {
-        Context dbContext = new();
-        Team = await dbContext.GetTeam();
+        Repository<Team> repo = new(new());
+        await repo.InsertAsync(team);
     }
 
     private async Task GetTeams()
     {
         Context dbContext = new();
-        teams = await dbContext.GetTeams();
+        Repository<Team> repo = new(new());
+        teams = await repo.GetAllAsync();
     }
 
     protected override async Task OnInitializedAsync()

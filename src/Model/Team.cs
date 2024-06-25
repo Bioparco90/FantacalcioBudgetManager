@@ -1,9 +1,8 @@
 ﻿namespace Model
 {
-    public class Team
+    public class Team : DataObject
     {
         public Guid Id { get; set; }
-        public string? Name { get; set; }
 
         public virtual ICollection<Goalkeeper>? Goalkeepers { get; }
         public virtual ICollection<Defender>? Defenders { get; }
