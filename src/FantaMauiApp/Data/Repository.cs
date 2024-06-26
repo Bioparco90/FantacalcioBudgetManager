@@ -9,6 +9,11 @@ namespace FantaMauiApp.Data
         public async Task<int> InsertAsync(T item)
         {
             await Context.Init();
+            var table = await GetAllAsync();
+            if (item is Player p && table.Count >= p.MaxPerTeam)
+            {
+                return 0;
+            }
             return await Context.GetDatabase()!.InsertAsync(item);
         }
 
