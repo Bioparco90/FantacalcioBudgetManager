@@ -1,5 +1,6 @@
 ﻿using Model;
 using SQLite;
+using System.Diagnostics;
 
 namespace FantaMauiApp.Data
 {
@@ -20,6 +21,8 @@ namespace FantaMauiApp.Data
 
         public async Task Init()
         {
+            Debug.WriteLine(DbPath);
+
             if (Database is not null)
                 return;
 
@@ -32,5 +35,17 @@ namespace FantaMauiApp.Data
         }
 
         public SQLiteAsyncConnection? GetDatabase() => Database;
+
+        public async Task DropDatabase()
+        {
+            await Task.Run(() =>
+            {
+                if (File.Exists(DbPath))
+                {
+                    File.Delete(DbPath);
+                    Database = null;
+                }
+            });
+        }
     }
 }

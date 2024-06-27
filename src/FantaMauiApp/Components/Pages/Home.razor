@@ -2,11 +2,16 @@
 @page "/home"
 
 @using Model
+@using System.Diagnostics
 
-<RadzenDataGrid Data="teams">
+<RadzenDataGrid Data="@teams" AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn Property="@nameof(Team.Id)" Title="Id" />
         <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Team" />
+        <RadzenDataGridColumn>
+            <Template Context="data">
+                <RadzenButton Icon="delete" Click="@(() => DeleteItem(data))" />
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 
@@ -21,13 +26,28 @@
         await repo.InsertAsync(team);
     }
 
-    private async Task GetTeams()
+    private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
+
+    private async Task DeleteItem(Team item)
     {
-        teams = await TeamRepository.GetAllAsync();
+        Debug.WriteLine(item.Name);
+
+        try
+        {
+            await TeamRepository.DeleteAsync(item);
+            await GetTeams();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error deleting team: {ex.Message}");
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         await GetTeams();
+
+
     }
 }
