@@ -14,6 +14,7 @@ namespace FantaMauiApp.Data
             {
                 return 0;
             }
+            item.Id = Guid.NewGuid();
             return await Context.GetDatabase()!.InsertAsync(item);
         }
 

@@ -2,7 +2,6 @@
 {
     public abstract class Player : DataObject
     {
-        public Guid Id { get; set; }
         public int Price { get; set; }
         public int MaxPerTeam { get; protected set; }
 
