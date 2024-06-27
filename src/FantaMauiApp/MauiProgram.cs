@@ -1,5 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Radzen;
+﻿using FantaMauiApp.Data;
+using Microsoft.Extensions.Logging;
+using Model;
 
 namespace FantaMauiApp
 {
@@ -16,6 +17,8 @@ namespace FantaMauiApp
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddSingleton<Context>();
+            builder.Services.AddScoped<Repository<Team>>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

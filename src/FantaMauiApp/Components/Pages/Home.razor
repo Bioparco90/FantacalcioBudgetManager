@@ -1,16 +1,14 @@
 ﻿@page "/"
 @page "/home"
 
-@using FantaMauiApp.Data
 @using Model
 
-<button @onclick="AddTeam">Add Team</button>
-
-@foreach (var team in teams)
-{
-    <br />
-    <label>@team.Name</label>
-}
+<RadzenDataGrid Data="teams">
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Team.Id)" Title="Id" />
+        <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Team" />
+    </Columns>
+</RadzenDataGrid>
 
 @code {
     private Team? Team { get; set; }
@@ -25,9 +23,7 @@
 
     private async Task GetTeams()
     {
-        Context dbContext = new();
-        Repository<Team> repo = new(new());
-        teams = await repo.GetAllAsync();
+        teams = await TeamRepository.GetAllAsync();
     }
 
     protected override async Task OnInitializedAsync()

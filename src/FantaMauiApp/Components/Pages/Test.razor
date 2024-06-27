@@ -1,19 +1,5 @@
 ﻿@page "/test"
 
-<RadzenText TextStyle="TextStyle.H3" Text="@text" />
-<RadzenButton Text="Click me" Click="@ClickedBtn" />
+<RadzenTextBox Placeholder="Team name" @bind-Value="@TeamName" />
+<RadzenButton Text="Add team" Click="AddTeam" />
 
-@if (changePhoto)
-{
-    <RadzenAlert AlertStyle="AlertStyle.Success" Title="Success" AllowClose="true" Close="ClickedBtn"/>
-}
-
-@code {
-    string text = "Hi";
-    bool changePhoto;
-
-    public async Task ClickedBtn()
-    {
-        await Task.Run(() => changePhoto = !changePhoto);
-    }
-}
