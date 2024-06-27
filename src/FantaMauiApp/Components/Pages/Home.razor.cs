@@ -7,15 +7,24 @@ namespace FantaMauiApp.Components.Pages
 {
     public partial class Home
     {
-        public string? TeamName { get; set; } = "";
+        public string? TeamName { get; set; } = string.Empty;
         private Team? Team { get; set; }
-        private List<Team> teams = [];
+        private IList<Team> teams = [];
 
         private async Task AddTeam()
         {
-            Team team = new() { Name = "Test" };
-            Repository<Team> repo = new(new());
-            await repo.InsertAsync(team);
+            if (string.IsNullOrWhiteSpace(TeamName))
+            {
+                return;
+            }
+
+            Team team = new()
+            {
+                Name = TeamName,
+            };
+            await TeamRepository.InsertAsync(team);
+            await GetTeams();
+            TeamName = string.Empty;
         }
 
         private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
