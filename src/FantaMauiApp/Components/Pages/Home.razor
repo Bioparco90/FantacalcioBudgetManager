@@ -1,9 +1,6 @@
 ﻿@page "/"
 @page "/home"
 
-@using Model
-@using System.Diagnostics
-
 <RadzenDataGrid Data="@teams" AllowColumnResize="true">
     <Columns>
         <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Team" />
@@ -15,39 +12,5 @@
     </Columns>
 </RadzenDataGrid>
 
-@code {
-    private Team? Team { get; set; }
-    private List<Team> teams = [];
-
-    private async Task AddTeam()
-    {
-        Team team = new() { Name = "Test" };
-        Repository<Team> repo = new(new());
-        await repo.InsertAsync(team);
-    }
-
-    private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
-
-    private async Task DeleteItem(Team item)
-    {
-        Debug.WriteLine(item.Name);
-
-        try
-        {
-            await TeamRepository.DeleteAsync(item);
-            await GetTeams();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error deleting team: {ex.Message}");
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        await GetTeams();
-
-
-    }
-}
+<RadzenTextBox Placeholder="Team name" @bind-Value="@TeamName" />
+<RadzenButton Text="Add team" Click="AddTeam" />
