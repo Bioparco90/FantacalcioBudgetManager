@@ -1,7 +1,7 @@
 ﻿@page "/"
 @page "/home"
 
-<RadzenDataGrid Data="@teams" AllowColumnResize="true">
+<RadzenDataGrid Data="@teams" AllowColumnResize="true" @bind-Value=@teams>
     <Columns>
         <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Team" />
         <RadzenDataGridColumn>
@@ -12,5 +12,8 @@
     </Columns>
 </RadzenDataGrid>
 
-<RadzenTextBox Placeholder="Team name" @bind-Value="@TeamName" />
-<RadzenButton Text="Add team" Click="AddTeam" />
+<RadzenContent Style="display: flex; justify-content: flex-end">
+    <RadzenTextBox Placeholder="Team name" @bind-Value="@TeamName" />
+    <RadzenButton Text="Add team" Click="AddTeam" />
+</RadzenContent>
+
