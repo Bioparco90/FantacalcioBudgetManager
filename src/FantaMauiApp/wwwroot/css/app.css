@@ -84,3 +84,8 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+#add-team {
+    display: flex;
+    justify-content: flex-end;
+}
