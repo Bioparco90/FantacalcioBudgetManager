@@ -1,6 +1,12 @@
 ﻿@page "/"
 @page "/home"
+
 @using FantaMauiApp.Components.Custom
+@inject DialogService DialogService
 
 <ItemsGrid TEntity="Team" Items="teams" OnDelete="DeleteItem"/>
 <AddItem TEntity="Team" OnAdd=AddItem />
+
+<div id="confirm-dialog" class="rz-p-12 rz-text-align-center">
+    <RadzenDialog />
+</div>

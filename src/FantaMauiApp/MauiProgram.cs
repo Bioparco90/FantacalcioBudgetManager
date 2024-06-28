@@ -1,6 +1,7 @@
 ﻿using FantaMauiApp.Data;
 using Microsoft.Extensions.Logging;
 using Model;
+using Radzen;
 
 namespace FantaMauiApp
 {
@@ -15,6 +16,9 @@ namespace FantaMauiApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
+
+            builder.Services.AddRadzenComponents();
+            builder.Services.AddScoped<DialogService>();
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton<Context>();
