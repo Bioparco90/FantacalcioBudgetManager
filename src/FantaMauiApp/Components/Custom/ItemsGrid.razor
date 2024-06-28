@@ -17,8 +17,5 @@
     [Parameter] public IList<TEntity>? Items { get; set; }
     [Parameter] public EventCallback<TEntity> OnDelete { get; set; }
 
-    private async Task DeleteItemBtnClick(TEntity item)
-    {
-        await OnDelete.InvokeAsync(item);
-    }
+    private async Task DeleteItemBtnClick(TEntity item) => await OnDelete.InvokeAsync(item);
 }

@@ -1,6 +1,6 @@
 ﻿using Model;
+using Radzen;
 using System.Diagnostics;
-
 
 namespace FantaMauiApp.Components.Pages
 {
@@ -18,6 +18,18 @@ namespace FantaMauiApp.Components.Pages
 
         private async Task DeleteItem(Team item)
         {
+            var options = new ConfirmOptions()
+            {
+                OkButtonText = "Yes",
+                CancelButtonText = "No",
+                
+            };
+            var confirm = await DialogService.Confirm("Are you sure?", "Delete", options) ?? false;
+            if (!confirm)
+            {
+                return;
+            }
+
             try
             {
                 await TeamRepository.DeleteAsync(item);

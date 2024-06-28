@@ -89,3 +89,8 @@ h1:focus {
     display: flex;
     justify-content: flex-end;
 }
+
+#confirm-dialog {
+    display: flex;
+    justify-content: center;
+}
