@@ -6,8 +6,6 @@ namespace FantaMauiApp.Components.Pages
 {
     public partial class Home
     {
-        private Team? Team { get; set; }
-
         private IList<Team> teams = [];
 
         private async Task AddItem(Team team)
@@ -18,10 +16,8 @@ namespace FantaMauiApp.Components.Pages
 
         private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
 
-        private async Task DeleteItemBtnClick(Team item)
+        private async Task DeleteItem(Team item)
         {
-            Debug.WriteLine(item.Name);
-
             try
             {
                 await TeamRepository.DeleteAsync(item);

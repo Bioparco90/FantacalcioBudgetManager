@@ -1,0 +1,24 @@
+@typeparam TEntity where TEntity : DataObject, new()
+
+<RadzenDataGrid Data="@Items" AllowColumnResize="true" @bind-Value=@Items>
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Item.Name)" Title="Name" />
+        <RadzenDataGridColumn>
+            <Template Context="data">
+                <RadzenButton Icon="delete" Click="@(() => DeleteItemBtnClick(data))" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    private TEntity? Item { get; set; }
+
+    [Parameter] public IList<TEntity>? Items { get; set; }
+    [Parameter] public EventCallback<TEntity> OnDelete { get; set; }
+
+    private async Task DeleteItemBtnClick(TEntity item)
+    {
+        await OnDelete.InvokeAsync(item);
+    }
+}

@@ -2,15 +2,5 @@
 @page "/home"
 @using FantaMauiApp.Components.Custom
 
-<RadzenDataGrid Data="@teams" AllowColumnResize="true" @bind-Value=@teams>
-    <Columns>
-        <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Team" />
-        <RadzenDataGridColumn>
-            <Template Context="data">
-                <RadzenButton Icon="delete" Click="@(() => DeleteItemBtnClick(data))" />
-            </Template>
-        </RadzenDataGridColumn>
-    </Columns>
-</RadzenDataGrid>
-
+<ItemsGrid TEntity="Team" Items="teams" OnDelete="DeleteItem"/>
 <AddItem TEntity="Team" OnAdd=AddItem />
