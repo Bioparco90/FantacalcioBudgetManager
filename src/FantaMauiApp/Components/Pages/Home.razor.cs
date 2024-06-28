@@ -6,15 +6,14 @@ namespace FantaMauiApp.Components.Pages
 {
     public partial class Home
     {
-        public string? TeamName { get; set; } = string.Empty;
         private Team? Team { get; set; }
+
         private IList<Team> teams = [];
 
         private async Task AddItem(Team team)
         {
             await TeamRepository.InsertAsync(team);
             await GetTeams();
-            TeamName = string.Empty;
         }
 
         private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
