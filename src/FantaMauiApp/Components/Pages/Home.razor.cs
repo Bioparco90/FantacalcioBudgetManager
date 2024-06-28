@@ -1,5 +1,4 @@
-﻿using FantaMauiApp.Data;
-using Model;
+﻿using Model;
 using System.Diagnostics;
 
 
@@ -11,17 +10,8 @@ namespace FantaMauiApp.Components.Pages
         private Team? Team { get; set; }
         private IList<Team> teams = [];
 
-        private async Task AddTeam()
+        private async Task AddItem(Team team)
         {
-            if (string.IsNullOrWhiteSpace(TeamName))
-            {
-                return;
-            }
-
-            Team team = new()
-            {
-                Name = TeamName,
-            };
             await TeamRepository.InsertAsync(team);
             await GetTeams();
             TeamName = string.Empty;
@@ -29,7 +19,7 @@ namespace FantaMauiApp.Components.Pages
 
         private async Task GetTeams() => teams = await TeamRepository.GetAllAsync();
 
-        private async Task DeleteItem(Team item)
+        private async Task DeleteItemBtnClick(Team item)
         {
             Debug.WriteLine(item.Name);
 

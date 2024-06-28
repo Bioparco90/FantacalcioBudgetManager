@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "src\Model\Model.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "src\Tests\TestProject1\TestProject1.csproj", "{D6646BCB-E1C3-4608-9B29-212666781FDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantaMauiApp", "src\FantaMauiApp\FantaMauiApp.csproj", "{C41C9E98-8545-4A8B-AD3C-9A48C9F59171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FantaMauiApp", "src\FantaMauiApp\FantaMauiApp.csproj", "{C41C9E98-8545-4A8B-AD3C-9A48C9F59171}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
