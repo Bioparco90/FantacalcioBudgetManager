@@ -1,14 +1,15 @@
 @typeparam TEntity where TEntity : DataObject, new()
 
-<RadzenDataGrid Data="@Items" AllowColumnResize="true" @bind-Value=@Items>
+<RadzenDataGrid Data="@Items" @bind-Value=@Items GridLines="DataGridGridLines.Horizontal">
     <Columns>
-        <RadzenDataGridColumn Property="@nameof(Item.Name)" Title="Name" />
-        <RadzenDataGridColumn>
+        <RadzenDataGridColumn Property="@nameof(Item.Name)" Title="Name"/>
+        <RadzenDataGridColumn TextAlign="TextAlign.End" >
             <Template Context="data">
                 <RadzenButton Icon="delete" Click="@(() => DeleteItemBtnClick(data))" />
             </Template>
         </RadzenDataGridColumn>
     </Columns>
+
 </RadzenDataGrid>
 
 @code {
