@@ -1,39 +1,39 @@
 ﻿using Model;
+using DataContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace FantaMauiApp.Data
 {
-    internal class Repository<T>(Context context) where T : DataObject, new()
+    internal class Repository(Context context)
     {
-        private Context Context { get; } = context;
+        private readonly Context dbContext = context;
 
-        public async Task<int> InsertAsync(T item)
+        public async Task<int> InsertAsync(Team item)
         {
-            await Context.Init();
-            var table = await GetAllAsync();
-            if (item is Player p && table.Count >= p.MaxPerTeam)
-            {
-                return 0;
-            }
-            item.Id = Guid.NewGuid();
-            return await Context.GetDatabase()!.InsertAsync(item);
+            await dbContext.Teams.AddAsync(item);
+            return await dbContext.SaveChangesAsync();
         }
 
-        public async Task<T> GetAsync(string name)
+        public async Task<Team?> GetAsync(Team item)
         {
-            await Context.Init();
-            return await Context.GetDatabase()!.Table<T>().FirstOrDefaultAsync(p => p.Name.Equals(name));
+            return await dbContext.Teams.FindAsync(item);
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<Team>> GetAllAsync()
         {
-            await Context.Init();
-            return await Context.GetDatabase()!.Table<T>().ToListAsync();
+            return await dbContext.Teams.ToListAsync();
+
+            //await Context.Init();
+            //return await Context.GetDatabase()!.Table<T>().ToListAsync();
         }
 
-        public async Task<int> DeleteAsync(T item)
+        public async Task<int> DeleteAsync(Team item)
         {
-            await Context.Init();
-            return await Context.GetDatabase()!.DeleteAsync(item);
+            dbContext.Teams.Remove(item);
+            return await dbContext.SaveChangesAsync();
+
+            //await Context.Init();
+            //return await Context.GetDatabase()!.DeleteAsync(item);
         }
     }
 }
