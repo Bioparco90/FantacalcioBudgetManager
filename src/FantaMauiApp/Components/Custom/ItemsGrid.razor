@@ -2,6 +2,7 @@
 
 <RadzenDataGrid Data="@Items" @bind-Value=@Items GridLines="DataGridGridLines.Horizontal">
     <Columns>
+        <RadzenDataGridColumn Property="@nameof(Item.Id)" Title="Id" Resizable="true" Width="50xp"/>
         <RadzenDataGridColumn Property="@nameof(Item.Name)" Title="Name"/>
         <RadzenDataGridColumn TextAlign="TextAlign.End" >
             <Template Context="data">

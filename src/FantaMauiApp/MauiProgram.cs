@@ -1,7 +1,7 @@
 ﻿using DataContext;
 using FantaMauiApp.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Model;
 using Radzen;
 
 namespace FantaMauiApp
@@ -22,15 +22,22 @@ namespace FantaMauiApp
             builder.Services.AddScoped<DialogService>();
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddTransient<Context>();
-            builder.Services.AddScoped<Repository>();
+            builder.Services.AddDbContext<Context>(options => options.UseSqlite($"Filename={GetDatabasePath()}"));
+            builder.Services.AddTransient<Repository>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
         }
+
+        private static string GetDatabasePath()
+        {
+            var databaseName = "db.db3";
+            return Path.Combine(FileSystem.AppDataDirectory, databaseName);
+        }
+
     }
 }

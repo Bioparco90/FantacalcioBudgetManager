@@ -1,6 +1,7 @@
 ﻿using Model;
 using DataContext;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace FantaMauiApp.Data
 {
@@ -10,7 +11,7 @@ namespace FantaMauiApp.Data
 
         public async Task<int> InsertAsync(Team item)
         {
-            await dbContext.Teams.AddAsync(item);
+            dbContext.Teams.Add(item);
             return await dbContext.SaveChangesAsync();
         }
 
@@ -22,9 +23,6 @@ namespace FantaMauiApp.Data
         public async Task<List<Team>> GetAllAsync()
         {
             return await dbContext.Teams.ToListAsync();
-
-            //await Context.Init();
-            //return await Context.GetDatabase()!.Table<T>().ToListAsync();
         }
 
         public async Task<int> DeleteAsync(Team item)
