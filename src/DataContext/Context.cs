@@ -19,6 +19,9 @@ namespace DataContext
             Database.Migrate();
             Database.EnsureCreated();
         }
+
+        // migration command:
+        // dotnet ef migrations add AddCollectionsInitialization --startup-project ..\DataContext --project ..\DataContext
     }
 }
 

@@ -2,8 +2,12 @@
 
 <RadzenDataGrid Data="@Items" @bind-Value=@Items GridLines="DataGridGridLines.Horizontal">
     <Columns>
-        <RadzenDataGridColumn Property="@nameof(Item.Name)" Title="Name"/>
-        <RadzenDataGridColumn TextAlign="TextAlign.End" >
+        <RadzenDataGridColumn Property="@nameof(item.Name)" Title="Name" />
+        @if (item is Team i)
+        {
+            <RadzenDataGridColumn Property="@nameof(i.League)" Title="League" />
+        }
+        <RadzenDataGridColumn TextAlign="TextAlign.End">
             <Template Context="data">
                 <RadzenButton Icon="delete" Click="@(() => DeleteItemBtnClick(data))" />
             </Template>
@@ -13,7 +17,7 @@
 </RadzenDataGrid>
 
 @code {
-    private TEntity? Item { get; set; }
+    private TEntity? item = new();
 
     [Parameter] public IList<TEntity>? Items { get; set; }
     [Parameter] public EventCallback<TEntity> OnDelete { get; set; }
