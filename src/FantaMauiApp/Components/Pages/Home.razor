@@ -2,11 +2,13 @@
 @page "/home"
 
 @using FantaMauiApp.Components.Custom
-@inject DialogService DialogService
+@inject NavigationManager NavigationManager
 
-<ItemsGrid TEntity="Team" Items="teams" OnDelete="DeleteItem"/>
-<AddItem TEntity="Team" OnAdd=AddItem />
-
-<div id="confirm-dialog" class="rz-p-12 rz-text-align-center">
-    <RadzenDialog />
+<div class="center">
+    <RadzenText Text="Gestisci il tuo budget fantamercato con facilità e strategia" TextAlign="TextAlign.Center" TextStyle="TextStyle.H3" />
+    <div class ="btn-margin">
+        <RadzenButton Size="ButtonSize.Large" ButtonStyle="ButtonStyle.Success" Text="Inizia subito!" Click="Start" />
+    </div>
 </div>
+
+
