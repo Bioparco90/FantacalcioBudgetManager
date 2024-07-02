@@ -45,6 +45,8 @@ namespace FantaMauiApp.Components.Pages
         {
             await base.OnInitializedAsync();
             await GetTeams();
+
+
         }
     }
 }

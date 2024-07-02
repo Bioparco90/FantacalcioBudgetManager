@@ -1,7 +1,6 @@
 ﻿using Model;
 using DataContext;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace FantaMauiApp.Data
 {
@@ -29,9 +28,6 @@ namespace FantaMauiApp.Data
         {
             dbContext.Teams.Remove(item);
             return await dbContext.SaveChangesAsync();
-
-            //await Context.Init();
-            //return await Context.GetDatabase()!.DeleteAsync(item);
         }
     }
 }
