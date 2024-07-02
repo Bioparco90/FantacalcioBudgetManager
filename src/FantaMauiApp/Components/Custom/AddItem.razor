@@ -1,6 +1,25 @@
 @typeparam TEntity
+@inject DialogService DialogService
+
 
 <RadzenContent id="add-item">
-    <RadzenTextBox Placeholder="Name" @bind-Value="@ItemName" />
-    <RadzenButton Text="Add" Click="AddItemBtnClick" />
+    <RadzenStack Orientation="Orientation.Vertical" Gap="10px">
+        <RadzenTextBox Placeholder="Name" @bind-Value="@ItemName" />
+        @if (typeof(TEntity) == typeof(Team))
+        {
+            <RadzenTextBox Placeholder="League" @bind-Value="@League" />
+        }
+
+        @if (typeof(TEntity) == typeof(Player))
+        {
+            <RadzenTextBox Placeholder="Price" @bind-Value="@Price" />
+        }
+
+        <RadzenButton Text="Add" Click="AddItemBtnClick" />
+    </RadzenStack>
 </RadzenContent>
+
+<div id="confirm-dialog" class="rz-p-12 rz-text-align-center">
+    <RadzenDialog />
+</div>
+
