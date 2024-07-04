@@ -23,7 +23,7 @@ namespace FantaMauiApp
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddDbContext<Context>(options => options.UseSqlite($"Filename={GetDatabasePath()}"));
-            builder.Services.AddTransient<Repository>();
+            builder.Services.AddTransient<TeamRepository>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

@@ -1,10 +1,11 @@
 ﻿using Model;
 using DataContext;
 using Microsoft.EntityFrameworkCore;
+using FantaMauiApp.Data.Interfaces;
 
 namespace FantaMauiApp.Data
 {
-    internal class Repository(Context context)
+    internal class TeamRepository(Context context) : IRepository<Team>
     {
         private readonly Context dbContext = context;
 
