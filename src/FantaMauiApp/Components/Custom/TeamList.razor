@@ -1,13 +1,13 @@
 ﻿@inject DialogService DialogService
 @inject NavigationManager NavigationManager
 
-<RadzenDataGrid AllowVirtualization="true" TItem="Team" Data="@teams" @bind-Value=@teams GridLines="DataGridGridLines.Horizontal" RowClick="GoToTeam">
+<RadzenDataGrid TItem="Team" Data="@teams" GridLines="DataGridGridLines.Horizontal" RowClick="GoToTeam" >
     <Columns>
         <RadzenDataGridColumn Property="@nameof(Team.Name)" Title="Name" />
         <RadzenDataGridColumn Property="@nameof(Team.League)" Title="League" />
         <RadzenDataGridColumn TextAlign="TextAlign.End">
             <Template Context="data">
-                <RadzenButton Icon="delete" Click="@(() => DeleteItem(data))" @onclick:stopPropagation="true" />
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(() => DeleteItem(data))" @onclick:stopPropagation="true" />
             </Template>
         </RadzenDataGridColumn>
     </Columns>
@@ -18,3 +18,4 @@
 <div id="confirm-dialog" class="rz-p-12 rz-text-align-center">
     <RadzenDialog />
 </div>
+
