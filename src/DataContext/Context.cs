@@ -16,7 +16,7 @@ namespace DataContext
         public Context(DbContextOptions<Context> options)
             :base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
             Database.EnsureCreated();
         }
 

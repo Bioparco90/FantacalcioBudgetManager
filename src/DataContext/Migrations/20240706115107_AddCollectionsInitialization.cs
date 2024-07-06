@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataContext.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddCollectionsInitialization : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,10 +29,10 @@ namespace DataContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false)
+                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false),
+                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,10 +49,10 @@ namespace DataContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false)
+                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false),
+                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,10 +69,10 @@ namespace DataContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false)
+                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false),
+                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,10 +89,10 @@ namespace DataContext.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false)
+                    MaxPerTeam = table.Column<int>(type: "INTEGER", nullable: false),
+                    TeamId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

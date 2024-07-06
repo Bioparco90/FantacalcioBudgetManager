@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    partial class DbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(Context))]
+    partial class ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -136,30 +136,38 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("Model.Defender", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Defenders")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Forward", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Forwards")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Goalkeeper", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Goalkeepers")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Midfielder", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Midfielders")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Team", b =>

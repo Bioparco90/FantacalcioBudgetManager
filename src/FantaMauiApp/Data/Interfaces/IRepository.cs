@@ -6,7 +6,7 @@ namespace FantaMauiApp.Data.Interfaces
     {
         Task<int> DeleteAsync(T item);
         Task<List<T>> GetAllAsync();
-        Task<T?> GetAsync(T item);
+        Task<T?> GetAsync(Guid id);
         Task<int> InsertAsync(T item);
     }
 }

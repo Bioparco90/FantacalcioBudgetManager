@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
-    [DbContext(typeof(DbContext))]
-    [Migration("20240701204244_Initial")]
-    partial class Initial
+    [DbContext(typeof(Context))]
+    [Migration("20240706115107_AddCollectionsInitialization")]
+    partial class AddCollectionsInitialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,30 +139,38 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("Model.Defender", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Defenders")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Forward", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Forwards")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Goalkeeper", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Goalkeepers")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Midfielder", b =>
                 {
-                    b.HasOne("Model.Team", null)
+                    b.HasOne("Model.Team", "Team")
                         .WithMany("Midfielders")
                         .HasForeignKey("TeamId");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Model.Team", b =>

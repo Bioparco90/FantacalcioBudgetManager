@@ -1,0 +1,56 @@
+﻿@page "/test"
+@using FantaMauiApp.Components.Custom
+@using System.Diagnostics
+
+<RadzenDataGrid TItem="Goalkeeper" Data="@Goalkeepers" GridLines="DataGridGridLines.Horizontal">
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Goalkeeper.Name)" Title="Name" />
+        <RadzenDataGridColumn TextAlign="TextAlign.End">
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<AddItem TEntity="Goalkeeper" OnAdd="AddGk" />
+
+
+@code {
+    public List<Goalkeeper> Goalkeepers { get; set; } = [];
+
+    private async Task GetGKs()
+    {
+        List<Team> teams = await TeamRepository.GetAllAsync();
+        var teamFound = await TeamRepository.GetAsync(teams.First().Id);
+        Goalkeepers = teamFound.Goalkeepers.ToList() ?? TeamRepository.GetDbSet().ToList();
+        // goalkeepers = TeamRepository.GetDbSet().Where(g => g.Team.Id == team.Id).ToList();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+            await GetGKs();
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            Debug.WriteLine(ex.StackTrace);
+        }
+
+    }
+
+    private async Task AddGk(Goalkeeper gk)
+    {
+        try
+        {
+            Team team = TeamRepository.GetAllAsync().Result.First();
+            await TeamRepository.AddGK(team, gk);
+            await GetGKs();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+
+    }
+}

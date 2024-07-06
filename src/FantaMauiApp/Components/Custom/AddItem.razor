@@ -10,7 +10,7 @@
             <RadzenTextBox Placeholder="League" @bind-Value="@League" />
         }
 
-        @if (typeof(TEntity) == typeof(Player))
+        @if (typeof(Player).IsAssignableFrom(typeof(TEntity)))
         {
             <RadzenTextBox Placeholder="Price" @bind-Value="@Price" />
         }

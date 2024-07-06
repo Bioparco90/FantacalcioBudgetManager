@@ -22,8 +22,8 @@ namespace FantaMauiApp
             builder.Services.AddScoped<DialogService>();
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddDbContext<Context>(options => options.UseSqlite($"Filename={GetDatabasePath()}"));
-            builder.Services.AddTransient<TeamRepository>();
+            builder.Services.AddDbContext<Context>(options => options.UseSqlite($"Data Source={GetDatabasePath()}"));
+            builder.Services.AddScoped<TeamRepository>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
@@ -38,6 +38,5 @@ namespace FantaMauiApp
             var databaseName = "db.db3";
             return Path.Combine(FileSystem.AppDataDirectory, databaseName);
         }
-
     }
 }

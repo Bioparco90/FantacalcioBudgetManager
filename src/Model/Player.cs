@@ -9,5 +9,7 @@
         protected static int DefendersMaxPerTeam => 8;
         protected static int MidfieldersMaxPerTeam => 8;
         protected static int ForwardsMaxPerTeam => 6;
+
+        public virtual Team? Team { get; set; }
     }
 }

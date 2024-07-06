@@ -5,7 +5,7 @@ using FantaMauiApp.Data.Interfaces;
 
 namespace FantaMauiApp.Data
 {
-    internal class TeamRepository(Context context) : IRepository<Team>
+    public class TeamRepository(Context context) : IRepository<Team>
     {
         private readonly Context dbContext = context;
 
@@ -15,14 +15,14 @@ namespace FantaMauiApp.Data
             return await dbContext.SaveChangesAsync();
         }
 
-        public async Task<Team?> GetAsync(Team item)
+        public async Task<Team?> GetAsync(Guid id)
         {
-            return await dbContext.Teams.FindAsync(item);
+            return await dbContext.Teams.FindAsync(id);
         }
 
         public async Task<List<Team>> GetAllAsync()
         {
-            return await dbContext.Teams.ToListAsync();
+            return await dbContext.Teams.Include(t => t.Goalkeepers).ToListAsync();
         }
 
         public async Task<int> DeleteAsync(Team item)
@@ -30,5 +30,26 @@ namespace FantaMauiApp.Data
             dbContext.Teams.Remove(item);
             return await dbContext.SaveChangesAsync();
         }
+
+        public async Task AddGK(Team item, Goalkeeper gk)
+        {
+            item.Goalkeepers.Add(gk);
+            dbContext.Update(item);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public void RemoveGK(Team item, Goalkeeper gk)
+        {
+            dbContext.Teams.Find(item)?.Goalkeepers.Remove(gk);
+            dbContext.SaveChanges();
+        }
+
+        public DbSet<Goalkeeper> GetDbSet() => dbContext.Goalkeepers;
+        public ICollection<Goalkeeper> GetGoalkeepers(Team team) => dbContext.Teams.Find(team.Id).Goalkeepers;
+
+        //private void Reflection(Team team, object item)
+        //{
+
+        //}
     }
 }
