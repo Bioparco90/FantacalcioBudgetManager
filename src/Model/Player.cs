@@ -1,9 +1,9 @@
 ﻿namespace Model
 {
-    public abstract class Player : DataObject
+    public class Player : DataObject
     {
         public int Price { get; set; }
-        public int MaxPerTeam { get; protected set; }
+        public Role Role { get; set; }
 
         protected static int GoalkeepersMaxPerTeam => 3;
         protected static int DefendersMaxPerTeam => 8;

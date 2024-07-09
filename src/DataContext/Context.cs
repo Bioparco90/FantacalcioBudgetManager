@@ -6,18 +6,16 @@ namespace DataContext
     public class Context : DbContext
     {
         public DbSet<Team> Teams { get; set; }
-        public DbSet<Goalkeeper> Goalkeepers { get; set; }
-        public DbSet<Defender> Defenders { get; set; }
-        public DbSet<Midfielder> Midfielders { get; set; }
-        public DbSet<Forward> Forwards { get; set; }
+        public DbSet<Player> Players { get; set; }
 
         public Context() { }
 
         public Context(DbContextOptions<Context> options)
             :base(options)
         {
-            //Database.Migrate();
             Database.EnsureCreated();
+            //var cs = Database.GetConnectionString();
+            //Debug.WriteLine($"CONNECTION STRING: {cs}");
         }
 
         // migration command:
