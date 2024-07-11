@@ -69,10 +69,11 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.61" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="Radzen.Blazor" Version="4.33.3" />
+        <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DataContext\DataContext.csproj" />
       <ProjectReference Include="..\Model\Model.csproj" />
     </ItemGroup>
 

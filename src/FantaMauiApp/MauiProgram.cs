@@ -1,6 +1,4 @@
-﻿using DataContext;
-using FantaMauiApp.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using FantaMauiApp.Data;
 using Microsoft.Extensions.Logging;
 using Radzen;
 
@@ -22,8 +20,10 @@ namespace FantaMauiApp
             builder.Services.AddScoped<DialogService>();
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddDbContext<Context>(options => options.UseSqlite($"Data Source={GetDatabasePath()}"));
-            builder.Services.AddScoped<TeamRepository>();
+
+            builder.Services.AddSingleton<Context>();
+            builder.Services.AddTransient<TeamRepository>();
+            builder.Services.AddTransient<PlayerRepository>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

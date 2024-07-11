@@ -1,55 +1,21 @@
-﻿using Model;
-using DataContext;
-using Microsoft.EntityFrameworkCore;
-using FantaMauiApp.Data.Interfaces;
+﻿using FantaMauiApp.Data.Interfaces;
+using Model;
 
 namespace FantaMauiApp.Data
 {
-    public class TeamRepository(Context context) : IRepository<Team>
+    internal class TeamRepository(Context context) : Repository(context), ITeamRepository
     {
-        private readonly Context dbContext = context;
-
-        public async Task<int> InsertAsync(Team item)
+        public async Task<int> InsertAsync(Team team)
         {
-            dbContext.Teams.Add(item);
-            return await dbContext.SaveChangesAsync();
+            var db = await dbContext.GetConnection();
+            team.Id = Guid.NewGuid();
+            return await db.InsertAsync(team);
         }
 
-        public async Task<Team?> GetAsync(Guid id)
-        {
-            return await dbContext.Teams.FindAsync(id);
-        }
+        public async Task<Team?> GetAsync(Guid id) => await GetConnection(async db => await db.GetAsync<Team>(id));
 
-        public async Task<List<Team>> GetAllAsync()
-        {
-            return await dbContext.Teams.Include(t => t.Goalkeepers).ToListAsync();
-        }
+        public async Task<List<Team>> GetAllAsync() => await GetConnection(async db => await db.Table<Team>().ToListAsync());
 
-        public async Task<int> DeleteAsync(Team item)
-        {
-            dbContext.Teams.Remove(item);
-            return await dbContext.SaveChangesAsync();
-        }
-
-        public async Task AddGK(Team item, Goalkeeper gk)
-        {
-            item.Goalkeepers.Add(gk);
-            dbContext.Update(item);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public void RemoveGK(Team item, Goalkeeper gk)
-        {
-            dbContext.Teams.Find(item)?.Goalkeepers.Remove(gk);
-            dbContext.SaveChanges();
-        }
-
-        public DbSet<Goalkeeper> GetDbSet() => dbContext.Goalkeepers;
-        public ICollection<Goalkeeper> GetGoalkeepers(Team team) => dbContext.Teams.Find(team.Id).Goalkeepers;
-
-        //private void Reflection(Team team, object item)
-        //{
-
-        //}
+        public async Task<int> DeleteAsync(Team team) => await GetConnection(async db => await db.DeleteAsync<Team>(team));
     }
 }

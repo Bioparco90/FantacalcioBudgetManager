@@ -1,27 +1,33 @@
 ﻿@page "/test"
 @using FantaMauiApp.Components.Custom
 @using System.Diagnostics
+@inject DialogService DialogService
 
-<RadzenDataGrid TItem="Goalkeeper" Data="@Goalkeepers" GridLines="DataGridGridLines.Horizontal">
+
+<RadzenDataGrid TItem="Player" Data="@Players" GridLines="DataGridGridLines.Horizontal">
     <Columns>
-        <RadzenDataGridColumn Property="@nameof(Goalkeeper.Name)" Title="Name" />
+        <RadzenDataGridColumn Property="@nameof(Player.Name)" Title="Name" />
+        <RadzenDataGridColumn Property="@nameof(Player.Role)" Title="Role" />
         <RadzenDataGridColumn TextAlign="TextAlign.End">
+            <Template Context="data">
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(() => DeleteItem(data))" @onclick:stopPropagation="true" />
+            </Template>
         </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
 
-<AddItem TEntity="Goalkeeper" OnAdd="AddGk" />
+<AddItem TEntity="Player" OnAdd="AddPlayer" />
 
 
 @code {
-    public List<Goalkeeper> Goalkeepers { get; set; } = [];
+    public List<Player> Players { get; set; } = [];
 
     private async Task GetGKs()
     {
         List<Team> teams = await TeamRepository.GetAllAsync();
         var teamFound = await TeamRepository.GetAsync(teams.First().Id);
-        Goalkeepers = teamFound.Goalkeepers.ToList() ?? TeamRepository.GetDbSet().ToList();
-        // goalkeepers = TeamRepository.GetDbSet().Where(g => g.Team.Id == team.Id).ToList();
+
+        Players = await PlayerRepository.GetAllAsync(teamFound);
     }
 
     protected override async Task OnInitializedAsync()
@@ -39,12 +45,13 @@
 
     }
 
-    private async Task AddGk(Goalkeeper gk)
+    private async Task AddPlayer(Player player)
     {
         try
         {
-            Team team = TeamRepository.GetAllAsync().Result.First();
-            await TeamRepository.AddGK(team, gk);
+            var teams = await TeamRepository.GetAllAsync();
+            var team = teams.First(); 
+            await PlayerRepository.InsertAsync(team, player);
             await GetGKs();
         }
         catch (Exception ex)
@@ -52,5 +59,33 @@
             Debug.WriteLine(ex.Message);
         }
 
+    }
+
+    private async Task DeleteItem(Player item)
+    {
+        var options = new ConfirmOptions()
+            {
+                OkButtonText = "Yes",
+                CancelButtonText = "No",
+
+            };
+        var confirm = await DialogService.Confirm("Are you sure?", "Delete", options) ?? false;
+        if (!confirm)
+        {
+            return;
+        }
+
+        try
+        {
+            var affected = await PlayerRepository.DeleteAsync(item);
+            if (affected > 0)
+            {
+                await GetGKs();
+            }
+        }
+        catch
+        {
+            _ = await DialogService.Alert("A problem occurred", "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+        }
     }
 }

@@ -10,9 +10,14 @@
             <RadzenTextBox Placeholder="League" @bind-Value="@League" />
         }
 
-        @if (typeof(Player).IsAssignableFrom(typeof(TEntity)))
+        @if (typeof(TEntity) == typeof(Player))
         {
             <RadzenTextBox Placeholder="Price" @bind-Value="@Price" />
+            <RadzenDropDown TValue="Role" Data="@Enum.GetValues(typeof(Role))" @bind-Value="@SelectedRole">
+                <Template Context="role">
+                    @role.ToString()
+                </Template>
+            </RadzenDropDown>
         }
 
         <RadzenButton ButtonStyle="ButtonStyle.Success" Text="Add" Click="AddItemBtnClick" />

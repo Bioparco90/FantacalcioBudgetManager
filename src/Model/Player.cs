@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using SQLite;
+
+namespace Model
 {
     public class Player : DataObject
     {
@@ -10,6 +12,7 @@
         protected static int MidfieldersMaxPerTeam => 8;
         protected static int ForwardsMaxPerTeam => 6;
 
-        public virtual Team? Team { get; set; }
+        [Indexed]
+        public Guid TeamId { get; set; }
     }
 }
