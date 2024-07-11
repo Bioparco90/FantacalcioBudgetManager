@@ -1,0 +1,101 @@
+﻿@page "/test"
+@using FantaMauiApp.Components.Custom
+@using System.Diagnostics
+@using FantaMauiApp.Data.Exceptions
+@inject DialogService DialogService
+
+
+<RadzenDataGrid TItem="Player" Data="@Players" GridLines="DataGridGridLines.Horizontal">
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Player.Name)" Title="Name" />
+        <RadzenDataGridColumn Property="@nameof(Player.Role)" Title="Role" />
+        <RadzenDataGridColumn TextAlign="TextAlign.End">
+            <Template Context="data">
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(() => DeleteItem(data))" @onclick:stopPropagation="true" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<AddItem TEntity="Player" OnAdd="AddPlayer" />
+
+
+@code {
+    public List<Player> Players { get; set; } = [];
+
+    private async Task GetPlayers()
+    {
+        List<Team> teams = await TeamRepository.GetAllAsync();
+        var teamFound = await TeamRepository.GetAsync(teams.First().Id);
+
+        Players = await PlayerRepository.GetAllAsync(teamFound);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+            await GetPlayers();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            Debug.WriteLine(ex.StackTrace);
+        }
+
+    }
+
+    private async Task AddPlayer(Player player)
+    {
+        try
+        {
+            var teams = await TeamRepository.GetAllAsync();
+            var team = teams.First();
+            await PlayerRepository.InsertAsync(team, player);
+            await GetPlayers();
+        }
+        catch (LimitReachedException ex)
+        {
+            _ = await DialogService.Alert(ex.Message, "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+        }
+        catch(PlayerExistsException ex)
+        {
+            _ = await DialogService.Alert(ex.Message, "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+        }
+        catch (Exception ex)
+        {
+            _ = await DialogService.Alert("A problem occurred", "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+            Debug.WriteLine(ex.Message);
+        }
+
+    }
+
+    private async Task DeleteItem(Player item)
+    {
+        var options = new ConfirmOptions()
+            {
+                OkButtonText = "Yes",
+                CancelButtonText = "No",
+
+            };
+        var confirm = await DialogService.Confirm("Are you sure?", "Delete", options) ?? false;
+        if (!confirm)
+        {
+            return;
+        }
+
+        try
+        {
+            var affected = await PlayerRepository.DeleteAsync(item);
+            if (affected > 0)
+            {
+                await GetPlayers();
+            }
+        }
+        catch
+        {
+            _ = await DialogService.Alert("A problem occurred", "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+        }
+    }
+}

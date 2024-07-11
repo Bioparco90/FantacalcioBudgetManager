@@ -1,33 +1,15 @@
-﻿using Model;
-using DataContext;
-using Microsoft.EntityFrameworkCore;
+﻿using SQLite;
 
 namespace FantaMauiApp.Data
 {
-    internal class Repository(Context context)
+    internal abstract class Repository(Context context)
     {
         private readonly Context dbContext = context;
 
-        public async Task<int> InsertAsync(Team item)
+        protected async Task<T> GetConnection<T>(Func<SQLiteAsyncConnection, Task<T>> action)
         {
-            dbContext.Teams.Add(item);
-            return await dbContext.SaveChangesAsync();
-        }
-
-        public async Task<Team?> GetAsync(Team item)
-        {
-            return await dbContext.Teams.FindAsync(item);
-        }
-
-        public async Task<List<Team>> GetAllAsync()
-        {
-            return await dbContext.Teams.ToListAsync();
-        }
-
-        public async Task<int> DeleteAsync(Team item)
-        {
-            dbContext.Teams.Remove(item);
-            return await dbContext.SaveChangesAsync();
+            var db = await dbContext.GetConnection();
+            return await action(db);
         }
     }
 }

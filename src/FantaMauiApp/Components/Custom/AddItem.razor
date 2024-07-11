@@ -13,6 +13,11 @@
         @if (typeof(TEntity) == typeof(Player))
         {
             <RadzenTextBox Placeholder="Price" @bind-Value="@Price" />
+            <RadzenDropDown TValue="Role" Data="@Enum.GetValues(typeof(Role))" @bind-Value="@SelectedRole">
+                <Template Context="role">
+                    @((Role)role)
+                </Template>
+            </RadzenDropDown>
         }
 
         <RadzenButton ButtonStyle="ButtonStyle.Success" Text="Add" Click="AddItemBtnClick" />
