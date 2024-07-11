@@ -15,7 +15,7 @@
             <RadzenTextBox Placeholder="Price" @bind-Value="@Price" />
             <RadzenDropDown TValue="Role" Data="@Enum.GetValues(typeof(Role))" @bind-Value="@SelectedRole">
                 <Template Context="role">
-                    @role.ToString()
+                    @((Role)role)
                 </Template>
             </RadzenDropDown>
         }
