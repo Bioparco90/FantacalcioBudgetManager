@@ -53,6 +53,6 @@ namespace FantaMauiApp.Components.Custom
             }
         }
 
-        private void GoToTeam(DataGridRowMouseEventArgs<Team> args) => NavigationManager.NavigateTo($"/teams/{args.Data.Id}");
+        private void GoToTeam(DataGridRowMouseEventArgs<Team> args) => NavigationManager.NavigateTo($"/squad/{args.Data.Id}");
     }
 }

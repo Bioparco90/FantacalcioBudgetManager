@@ -1,0 +1,17 @@
+﻿@page "/squad/{Id:guid}"
+@using FantaMauiApp.Components.Custom
+@inject DialogService DialogService
+
+<RadzenDataGrid TItem="Player" Data="@Players" GridLines="DataGridGridLines.Horizontal">
+    <Columns>
+        <RadzenDataGridColumn Property="@nameof(Player.Name)" Title="Name" />
+        <RadzenDataGridColumn Property="@nameof(Player.Role)" Title="Role" />
+        <RadzenDataGridColumn TextAlign="TextAlign.End">
+            <Template Context="data">
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Danger" Icon="delete" Click="@(() => DeleteItem(data))" @onclick:stopPropagation="true" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+<AddItem TEntity="Player" OnAdd="AddPlayer" />

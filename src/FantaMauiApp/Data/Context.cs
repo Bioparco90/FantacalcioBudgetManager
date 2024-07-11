@@ -1,5 +1,6 @@
 ﻿using Model;
 using SQLite;
+using System.Diagnostics;
 
 namespace FantaMauiApp.Data
 {
@@ -13,6 +14,7 @@ namespace FantaMauiApp.Data
 
         private async Task Init()
         {
+            Debug.WriteLine("PATH-------------->" + Database?.DatabasePath);
             if (Database is not null)
                 return;
 

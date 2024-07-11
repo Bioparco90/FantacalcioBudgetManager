@@ -6,6 +6,8 @@ namespace Model
     {
         [PrimaryKey]
         public Guid Id { get; set; }
+
+        [NotNull]
         public string? Name { get; set; }
     }
 }
