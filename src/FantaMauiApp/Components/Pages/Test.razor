@@ -1,6 +1,7 @@
 ﻿@page "/test"
 @using FantaMauiApp.Components.Custom
 @using System.Diagnostics
+@using FantaMauiApp.Data.Exceptions
 @inject DialogService DialogService
 
 
@@ -22,7 +23,7 @@
 @code {
     public List<Player> Players { get; set; } = [];
 
-    private async Task GetGKs()
+    private async Task GetPlayers()
     {
         List<Team> teams = await TeamRepository.GetAllAsync();
         var teamFound = await TeamRepository.GetAsync(teams.First().Id);
@@ -35,9 +36,9 @@
         try
         {
             await base.OnInitializedAsync();
-            await GetGKs();
+            await GetPlayers();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
             Debug.WriteLine(ex.StackTrace);
@@ -50,12 +51,21 @@
         try
         {
             var teams = await TeamRepository.GetAllAsync();
-            var team = teams.First(); 
+            var team = teams.First();
             await PlayerRepository.InsertAsync(team, player);
-            await GetGKs();
+            await GetPlayers();
+        }
+        catch (LimitReachedException ex)
+        {
+            _ = await DialogService.Alert(ex.Message, "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
+        }
+        catch(PlayerExistsException ex)
+        {
+            _ = await DialogService.Alert(ex.Message, "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
         }
         catch (Exception ex)
         {
+            _ = await DialogService.Alert("A problem occurred", "Error", new() { CloseDialogOnOverlayClick = true, OkButtonText = "Close" });
             Debug.WriteLine(ex.Message);
         }
 
@@ -80,7 +90,7 @@
             var affected = await PlayerRepository.DeleteAsync(item);
             if (affected > 0)
             {
-                await GetGKs();
+                await GetPlayers();
             }
         }
         catch
